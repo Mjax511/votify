@@ -1,7 +1,7 @@
 import React from 'react';
+import { PlayList } from './PlayList';
 
 export const Homepage = () => {
-
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${sessionStorage.accessToken}`);
 
@@ -19,6 +19,6 @@ export const Homepage = () => {
       .catch(error => console.log('error', error));
 
     return (
-        <div>{sessionStorage.name}</div>
+        <div>Welcome {sessionStorage.name}!<PlayList></PlayList></div>
     );
 };
