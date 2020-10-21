@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
-import queryString from 'querystring'
 import { LoginButton } from './LoginButton';
 import { Homepage } from './Homepage';
 
@@ -16,7 +15,7 @@ function App() {
   }
   if (loading) {
     return (
-      <div>Loading</div>
+      <div>LoadingGood</div>
     )
   }
   if (authCode) {
@@ -38,10 +37,16 @@ function App() {
     };
     setLoading(true)
     fetch("https://accounts.spotify.com/api/token", requestOptions)
-      .then(response => response.json())
+      .then(response => {
+        if (response.status !== 200) {
+          throw new Error(`Error: ${response.status} while requesting token`)
+        }
+        return response.json()
+      })
       .then(data => {
-        sessionStorage.setItem("token", data.access_token)
+        sessionStorage.setItem("accessToken", data.access_token)
         setLoading(false);
+        window.location = "http://localhost:3000"
       })
       .catch(error => console.log('error', error));
     // const tokenData = await response.json();
