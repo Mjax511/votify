@@ -1,67 +1,78 @@
-import React from 'react';
+import React from "react";
 //import logo from './logo.svg';
-import './App.css';
-import { LoginButton } from './LoginButton';
-import { Homepage } from './Homepage';
+import "./App.css";
+import { LoginButton } from "./LoginButton";
+import { Homepage } from "./Homepage";
+import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
 
-function App() {
-  const [loading, setLoading] = React.useState(false);
+function HandleAuth(props) {
+  const endpoint = "https://accounts.spotify.com/api/token";
 
-  const authCode = window.location.href.split('?')[1] ? window.location.href.split('?')[1].split("=")[1] : null;
-  if (sessionStorage.accessToken) {
-    return (
-      <Homepage></Homepage>
-    )
-  }
+  var myHeaders = new Headers();
+  myHeaders.append(
+    "Authorization",
+    "Basic ZDYxZDljMmNjZTAyNDFjMWJlZTI0MGU3OTczMDNiMjM6ZmFlMzFiNWI5NTIwNDQ2Mzk0OTE1NzJkYWJkNDNlN2Q="
+  );
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  myHeaders.append(
+    "Cookie",
+    "__Host-device_id=AQAM2Cs4CAqkO60Mhy0ZjxJkalvjJGJ43zV2Z9tqxYKbJ-Mz2V6LkE3lBe1wcks2KIwCN1ZElxxWq74EmV0Eya99KiVCol8dEWk"
+  );
+
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("grant_type", "authorization_code");
+  urlencoded.append("code", props.authCode);
+  urlencoded.append("redirect_uri", "http://localhost:3000");
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: "follow",
+  };
+
+  const [loading, data, error] = useHandleFetchAndLoad(
+    endpoint,
+    requestOptions
+  );
+
   if (loading) {
-    return (
-      <div>LoadingGood</div>
-    )
+    return <div>Loading</div>;
+  }
+  if (!data?.access_token || error) {
+    return <div>{`Error: ${error}`}</div>;
+  }
+  sessionStorage.setItem("accessToken", data.access_token);
+  return <Homepage></Homepage>;
+
+  // fetch("https://accounts.spotify.com/api/token", requestOptions)
+  //   .then(response => {
+  //     if (response.status !== 200) {
+  //       throw new Error(`Error: ${response.status} while requesting token`)
+  //     }
+  //     return response.json()
+  //   })
+  //   .then(data => {
+  //     sessionStorage.setItem("accessToken", data.access_token)
+  //     setLoading(false);
+  //     window.location = "http://localhost:3000"
+  //   })
+  //   .catch(error => console.log('error', error));
+  // const tokenData = await response.json();
+  // sessionStorage.setItem("token", tokenData.access_token);
+}
+function App() {
+
+  const authCode = window.location.href.split("?")[1]
+    ? window.location.href.split("?")[1].split("=")[1]
+    : null;
+  if (sessionStorage.accessToken) {
+    return <Homepage></Homepage>;
   }
   if (authCode) {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Basic ZDYxZDljMmNjZTAyNDFjMWJlZTI0MGU3OTczMDNiMjM6ZmFlMzFiNWI5NTIwNDQ2Mzk0OTE1NzJkYWJkNDNlN2Q=");
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    myHeaders.append("Cookie", "__Host-device_id=AQAM2Cs4CAqkO60Mhy0ZjxJkalvjJGJ43zV2Z9tqxYKbJ-Mz2V6LkE3lBe1wcks2KIwCN1ZElxxWq74EmV0Eya99KiVCol8dEWk");
-
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("grant_type", "authorization_code");
-    urlencoded.append("code", authCode);
-    urlencoded.append("redirect_uri", "http://localhost:3000");
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: 'follow'
-    };
-    setLoading(true)
-    fetch("https://accounts.spotify.com/api/token", requestOptions)
-      .then(response => {
-        if (response.status !== 200) {
-          throw new Error(`Error: ${response.status} while requesting token`)
-        }
-        return response.json()
-      })
-      .then(data => {
-        sessionStorage.setItem("accessToken", data.access_token)
-        setLoading(false);
-        window.location = "http://localhost:3000"
-      })
-      .catch(error => console.log('error', error));
-    // const tokenData = await response.json();
-    // sessionStorage.setItem("token", tokenData.access_token);
-    return (
-      <div>Loading</div>
-    )
-
+    return <HandleAuth authCode={authCode}></HandleAuth>
   } else {
-
-    return (
-
-      <LoginButton></LoginButton>
-
-    )
+    return <LoginButton></LoginButton>;
   }
 
   //   const redirect_uri = 'http://localhost:3000'
@@ -72,10 +83,9 @@ function App() {
   //   //console.log(authCode)
   //   const votifyAuthURL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${my_client_id}${scopes ? '&scope=' + encodeURIComponent(scopes) : ''}&redirect_uri=${encodeURIComponent(redirect_uri)}`;
 
-
   //   const onClick = () => {
   //     window.location = votifyAuthURL
-  //   } 
+  //   }
   //   var myHeaders = new Headers();
   // myHeaders.append("Authorization", "Basic ZDYxZDljMmNjZTAyNDFjMWJlZTI0MGU3OTczMDNiMjM6ZmFlMzFiNWI5NTIwNDQ2Mzk0OTE1NzJkYWJkNDNlN2Q=");
   // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -105,10 +115,6 @@ function App() {
   //   .catch(error => console.log('error', error));
 
   // console.log(sessionStorage.token)
-
-
-
-
 
   //   myHeaders = new Headers();
   //   myHeaders.append("Authorization", `Bearer ${sessionStorage.token}`);

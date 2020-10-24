@@ -19,6 +19,6 @@ export const Homepage = () => {
       .catch(error => console.log('error', error));
 
     return (
-        <div>Welcome {sessionStorage.name}!<PlayList></PlayList></div>
+        <div>Welcome {sessionStorage.name}!<PlayList/></div>
     );
 };
