@@ -1,9 +1,8 @@
 import React from "react";
+import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
 
 export const PlayList = () => {
-  const [loading, setLoading] = React.useState(false);
-  const [playlist, setPlaylist] = React.useState(null);
-
+  const endpoint = "https://api.spotify.com/v1/me/playlists";
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${sessionStorage.accessToken}`);
 
@@ -21,21 +20,22 @@ export const PlayList = () => {
     }
   };
 
-  if (playlist) {
-    return <ul>{listPlay(playlist)}</ul>;
-  }
+  const [loading, data, error] = useHandleFetchAndLoad(endpoint, requestOptions);
+
   if (loading) {
-    return <div>Playlist Loading</div>;
+    return <div>Playlist Loading from {endpoint}</div>;
   }
 
-  setLoading(true);
-  fetch("https://api.spotify.com/v1/me/playlists", requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      setPlaylist(res.items);
-      setLoading(false);
-    })
-    .catch((error) => console.log("error", error));
+  const playlist = data.items;
+  return <ul>{listPlay(playlist)}</ul>;
 
-  return <div>Playlist Loading</div>;
+  // fetch("https://api.spotify.com/v1/me/playlists", requestOptions)
+  //   .then((response) => response.json())
+  //   .then((res) => {
+  //     setPlaylist(res.items);
+  //     setLoading(false);
+  //   })
+  //   .catch((error) => console.log("error", error));
+
+  // return <div>Playlist Loading</div>;
 };
