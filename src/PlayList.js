@@ -25,6 +25,7 @@ export const PlayList = () => {
   if (loading) {
     return <div>Playlist Loading from {endpoint}</div>;
   }
+  //need to figure out how to handle this and error 
 
   const playlist = data.items;
   return <ul>{listPlay(playlist)}</ul>;
