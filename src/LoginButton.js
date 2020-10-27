@@ -1,4 +1,3 @@
-import { Button } from "@material-ui/core";
 import React from "react";
 
 export const LoginButton = () => {
@@ -14,8 +13,8 @@ export const LoginButton = () => {
   };
 
   return (
-    <Button variant="contained" color="primary" onClick={onClick}>
+    <button variant="contained" color="primary" onClick={onClick}>
       Login
-    </Button>
+    </button>
   );
 };
