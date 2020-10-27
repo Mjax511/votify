@@ -5,15 +5,20 @@ export function useHandleFetchAndLoad(endpoint, requestOptions) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(async () => {
+  useEffect(() => {
     try {
-      const res = await fetch(endpoint, requestOptions);
-      setData(await res.json());
+      (async () => {
+        const res = await fetch(endpoint, requestOptions);
+        setData(await res.json());
+        setLoading(false);
+      })();
     } catch (err) {
       setError(err);
-    } finally {
-        setLoading(false);
-    }
+      setLoading(false);
+    } 
+    // finally {
+    //   setLoading(false);
+    // }
     //   .then((res) => {
     //     return (res.json());
     //     setLoading(false);

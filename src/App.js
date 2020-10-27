@@ -40,9 +40,12 @@ function HandleAuth(props) {
     return <div>Loading</div>;
   }
   if (!data?.access_token || error) {
-    return <div>{`Error: ${error}`}</div>;
+    return <div>{`error: ${error}!!!`}</div>;
+    // why is this getting run?
   }
   sessionStorage.setItem("accessToken", data.access_token);
+  window.location = "http://localhost:3000";
+
   return <Homepage></Homepage>;
 
   // fetch("https://accounts.spotify.com/api/token", requestOptions)
@@ -62,7 +65,6 @@ function HandleAuth(props) {
   // sessionStorage.setItem("token", tokenData.access_token);
 }
 function App() {
-
   const authCode = window.location.href.split("?")[1]
     ? window.location.href.split("?")[1].split("=")[1]
     : null;
@@ -70,10 +72,9 @@ function App() {
     return <Homepage></Homepage>;
   }
   if (authCode) {
-    return <HandleAuth authCode={authCode}></HandleAuth>
-  } else {
-    return <LoginButton></LoginButton>;
+    return <HandleAuth authCode={authCode}></HandleAuth>;
   }
+  return <LoginButton></LoginButton>;
 
   //   const redirect_uri = 'http://localhost:3000'
   //   const my_client_id = 'd61d9c2cce0241c1bee240e797303b23'
