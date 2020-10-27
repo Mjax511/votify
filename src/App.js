@@ -37,11 +37,10 @@ function HandleAuth(props) {
   );
 
   if (loading) {
-    return <div>Loading</div>;
+    return <div>Loading from {endpoint}</div>;
   }
   if (!data?.access_token || error) {
     return <div>{`error: ${error}!!!`}</div>;
-    // why is this getting run?
   }
   sessionStorage.setItem("accessToken", data.access_token);
   window.location = "http://localhost:3000";

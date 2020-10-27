@@ -15,7 +15,7 @@ export function useHandleFetchAndLoad(endpoint, requestOptions) {
     } catch (err) {
       setError(err);
       setLoading(false);
-    } 
+    }
     // finally {
     //   setLoading(false);
     // }
@@ -29,6 +29,10 @@ export function useHandleFetchAndLoad(endpoint, requestOptions) {
     //       setError(err)
     //   });
   }, []);
+  // if (loading) {
+  //   return <div>Loading fetch from {endpoint}</div>;
+  // }
+  //how to do this?
 
   return [loading, data, error];
 }
