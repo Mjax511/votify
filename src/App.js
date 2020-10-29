@@ -67,6 +67,20 @@ function App() {
   const authCode = window.location.href.split("?")[1]
     ? window.location.href.split("?")[1].split("=")[1]
     : null;
+  const endpoint = "https://api.spotify.com/v1/me";
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${sessionStorage.accessToken}`);
+
+  var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+  const [loading, data, error] = useHandleFetchAndLoad(
+    endpoint,
+    requestOptions
+  );
+  console.log(data);
   if (sessionStorage.accessToken) {
     return <Homepage></Homepage>;
   }

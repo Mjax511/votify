@@ -13,7 +13,7 @@ export const LoginButton = () => {
   };
 
   return (
-    <button variant="contained" color="primary" onClick={onClick}>
+    <button onClick={onClick}>
       Login
     </button>
   );
