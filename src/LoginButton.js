@@ -1,6 +1,7 @@
 import React from "react";
 
 export const LoginButton = () => {
+  sessionStorage.setItem("accessToken", null); //want a fresh access token if logging in, sessionStorage only holds strings
   const redirect_uri = "http://localhost:3000";
   const my_client_id = "d61d9c2cce0241c1bee240e797303b23";
   const scopes = "playlist-read-collaborative playlist-modify-public";
@@ -12,9 +13,5 @@ export const LoginButton = () => {
     window.location = spotifyAuthURI;
   };
 
-  return (
-    <button onClick={onClick}>
-      Login
-    </button>
-  );
+  return <button onClick={onClick}>Login</button>;
 };

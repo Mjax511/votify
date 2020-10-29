@@ -1,4 +1,5 @@
 import React from "react";
+import { LoginButton } from "./LoginButton";
 import { PlayList } from "./PlayList";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
 
@@ -30,6 +31,7 @@ export const Homepage = () => {
   //     sessionStorage.setItem("name", res.display_name);
   //   })
   //   .catch((error) => console.log("error", error));
+  if (data?.error) return <LoginButton />; // checks to see if there is an old access token
 
   return (
     <div>
