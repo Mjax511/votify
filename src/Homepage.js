@@ -1,5 +1,6 @@
 import React from "react";
 import { LoginButton } from "./LoginButton";
+import { NewPlaylist } from "./NewPlaylist";
 import { PlayList } from "./PlayList";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
 
@@ -37,6 +38,7 @@ export const Homepage = () => {
     <div>
       Welcome {userName}!
       <PlayList />
+      <NewPlaylist />
     </div>
   );
 };
