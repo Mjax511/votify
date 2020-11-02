@@ -1,7 +1,12 @@
-import React from "react";
+import { render } from "@testing-library/react";
+import React, { useState } from "react";
+import { List } from "semantic-ui-react";
+import { LoginButton } from "./LoginButton";
+import { PlaylistItem } from "./PlaylistItem";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
 
 export const PlayList = () => {
+  const [itemClicked, setItemClicked] = useState(null);
   const endpoint = "https://api.spotify.com/v1/me/playlists";
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${sessionStorage.accessToken}`);
@@ -11,24 +16,40 @@ export const PlayList = () => {
     headers: myHeaders,
     redirect: "follow",
   };
+  const [loading, data, error] = useHandleFetchAndLoad(
+    endpoint,
+    requestOptions
+  );
+
+  const onClick = (key) => {
+    setItemClicked(key);
+  };
 
   const listPlay = (list) => {
     if (list !== undefined) {
       return Object.keys(list).map((key) => (
-        <li key={key}>{list[key].name}</li>
+        <List.Item
+          key={key}
+          onClick={() => {
+            onClick(key);
+          }}
+        >
+          {list[key].name}
+        </List.Item>
       ));
     }
   };
 
-  const [loading, data, error] = useHandleFetchAndLoad(endpoint, requestOptions);
-
   if (loading) {
     return <div>Playlist Loading from {endpoint}</div>;
   }
-  //need to figure out how to handle this and error in one function 
+  //need to figure out how to handle this and error in one function
 
+  if (itemClicked) {
+    return <div>{itemClicked}</div>;
+  }
   const playlist = data.items;
-  return <ul>{listPlay(playlist)}</ul>;
+  return <List>{listPlay(playlist)}</List>;
 
   // fetch("https://api.spotify.com/v1/me/playlists", requestOptions)
   //   .then((response) => response.json())
