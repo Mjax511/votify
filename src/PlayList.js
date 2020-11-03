@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { List } from "semantic-ui-react";
 import { LoginButton } from "./LoginButton";
 import { PlaylistItem } from "./PlaylistItem";
+import { SongList } from "./SongList";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
 
 export const PlayList = () => {
@@ -46,7 +47,7 @@ export const PlayList = () => {
   //need to figure out how to handle this and error in one function
 
   if (itemClicked) {
-    return <div>{itemClicked}</div>;
+    return <SongList playlistId={data.items[itemClicked].id}/>
   }
   const playlist = data.items;
   return <List>{listPlay(playlist)}</List>;
