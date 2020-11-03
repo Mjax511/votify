@@ -28,7 +28,8 @@ export const SongList = (props) => {
   };
   const [loading, data, error] = useHandleFetchAndLoad(
     endpoint,
-    requestOptions
+    requestOptions,
+    songList
   );
   if (loading) {
     return <div>Playlist Loading from {endpoint}</div>;
@@ -38,11 +39,17 @@ export const SongList = (props) => {
   for (let key in Object.keys(data.items)) {
     songListCopy.tracks.push(data.items[key].track.name);
   }
-  if (Object.keys(data.items).length > 99) {
-    songListCopy.index += 98;
+  songListCopy.index += 99;
 
-    // setSongList(songListCopy);
-  } 
+  console.log(Object.keys(data.items).length)
+  console.log(Object.keys(data.items).length > 99)
+  console.log(data.items)
+  if (Object.keys(data.items).length > 99) {
+    console.log(songListCopy);
+    console.log(songList);
+
+    // setSongList(JSON.parse(JSON.stringify(songListCopy)));
+  }
 
   return <List>{listPlay(songListCopy.tracks)}</List>;
 };
