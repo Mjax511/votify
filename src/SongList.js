@@ -15,16 +15,7 @@ export const SongList = (props) => {
   };
 
   const listPlay = (list) => {
-    return list.map((song, i) => (
-      <List.Item
-        key={i}
-        //   onClick={() => {
-        //     onClick(key);
-        //   }}
-      >
-        {song}
-      </List.Item>
-    ));
+    return list.map((song, i) => <List.Item key={i}>{song}</List.Item>);
   };
   const [loading, data, error] = useHandleFetchAndLoad(
     endpoint,
@@ -41,9 +32,9 @@ export const SongList = (props) => {
   }
   songListCopy.index += 99;
 
-  console.log(Object.keys(data.items).length)
-  console.log(Object.keys(data.items).length > 99)
-  console.log(data.items)
+  console.log(Object.keys(data.items).length);
+  console.log(Object.keys(data.items).length > 99);
+  console.log(data.items);
   if (Object.keys(data.items).length > 99) {
     console.log(songListCopy);
     console.log(songList);
