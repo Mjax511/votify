@@ -17,11 +17,7 @@ export const SongList = (props) => {
   const listPlay = (list) => {
     return list.map((song, i) => <List.Item key={i}>{song}</List.Item>);
   };
-  const [loading, data, error] = useHandleFetchAndLoad(
-    endpoint,
-    requestOptions,
-    songList
-  );
+  let [loading, data, error] = useHandleFetchAndLoad(endpoint, requestOptions);
   if (loading) {
     return <div>Playlist Loading from {endpoint}</div>;
   }
@@ -38,7 +34,6 @@ export const SongList = (props) => {
   if (Object.keys(data.items).length > 99) {
     console.log(songListCopy);
     console.log(songList);
-
     // setSongList(JSON.parse(JSON.stringify(songListCopy)));
   }
 

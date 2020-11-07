@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export function useHandleFetchAndLoad(endpoint, requestOptions, rerender =null) {
+export function useHandleFetchAndLoad(endpoint, requestOptions) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
