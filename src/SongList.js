@@ -15,27 +15,23 @@ export const SongList = (props) => {
   };
 
   const listPlay = (list) => {
-    return list.map((song, i) => <List.Item key={i}>{song}</List.Item>);
+    return list.map((song, i) => <List.Item key={i}>{song.track.name}</List.Item>);
   };
-  let [loading, data, error] = useHandleFetchAndLoad(endpoint, requestOptions);
+  let [loading, data, error, refresh] = useHandleFetchAndLoad(endpoint, requestOptions);
   if (loading) {
     return <div>Playlist Loading from {endpoint}</div>;
   }
+  
 
-  const songListCopy = JSON.parse(JSON.stringify(songList));
-  for (let key in Object.keys(data.items)) {
-    songListCopy.tracks.push(data.items[key].track.name);
+  const playlistLength = data.total
+
+  console.log(data.items, data.next)
+  if(songList.tracks.length <= data.total){
+    setSongList(s => ({
+      tracks: [... s.tracks, ...data.items],
+      index: s.index + 100
+    }));
+    if(data.next) refresh();
   }
-  songListCopy.index += 99;
-
-  console.log(Object.keys(data.items).length);
-  console.log(Object.keys(data.items).length > 99);
-  console.log(data.items);
-  if (Object.keys(data.items).length > 99) {
-    console.log(songListCopy);
-    console.log(songList);
-    // setSongList(JSON.parse(JSON.stringify(songListCopy)));
-  }
-
-  return <List>{listPlay(songListCopy.tracks)}</List>;
+  return <List>{listPlay(songList.tracks)}</List>;
 };
