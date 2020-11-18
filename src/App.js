@@ -4,6 +4,8 @@ import "./App.css";
 import { LoginButton } from "./LoginButton";
 import { Homepage } from "./Homepage";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
+import 'semantic-ui-css/semantic.min.css'
+
 
 function HandleAuth(props) {
   const endpoint = "https://accounts.spotify.com/api/token";

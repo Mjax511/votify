@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
-import { List } from "semantic-ui-react";
+import { Container, List, Header } from "semantic-ui-react";
+import styled from "styled-components";
+
+const StyledContainer = styled(Container)`
+  &&& {
+    width: 500px;
+  }`;
 
 export const SongList = (props) => {
   const [songList, setSongList] = useState({ index: 0, tracks: [] });
@@ -15,23 +21,34 @@ export const SongList = (props) => {
   };
 
   const listPlay = (list) => {
-    return list.map((song, i) => <List.Item key={i}>{song.track.name}</List.Item>);
+    return list.map((song, i) => (
+      <List.Item key={i}>{song.track.name}</List.Item>
+    ));
   };
-  let [loading, data, error, refresh] = useHandleFetchAndLoad(endpoint, requestOptions);
+  let [loading, data, error, refresh] = useHandleFetchAndLoad(
+    endpoint,
+    requestOptions
+  );
   if (loading) {
     return <div>Playlist Loading from {endpoint}</div>;
   }
-  
 
-  const playlistLength = data.total
+  const playlistLength = data.total;
 
-  console.log(data.items, data.next)
-  if(songList.tracks.length <= data.total){
-    setSongList(s => ({
-      tracks: [... s.tracks, ...data.items],
-      index: s.index + 100
+  console.log(data.items, data.next);
+  if (songList.tracks.length <= data.total) {
+    setSongList((s) => ({
+      tracks: [...s.tracks, ...data.items],
+      index: s.index + 100,
     }));
-    if(data.next) refresh();
+    if (data.next) refresh();
   }
-  return <List>{listPlay(songList.tracks)}</List>;
+  return (
+    <StyledContainer>
+      <Header>{props.playlistName}</Header>
+      <List selection divided animated>
+        {listPlay(songList.tracks)}
+      </List>
+    </StyledContainer>
+  );
 };

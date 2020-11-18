@@ -47,7 +47,7 @@ export const PlayList = () => {
   //need to figure out how to handle this and error in one function
 
   if (itemClicked) {
-    return <SongList playlistId={data.items[itemClicked].id}/>
+    return <SongList playlistId={data.items[itemClicked].id} playlistName={data.items[itemClicked].name}/>
   }
   const playlist = data.items;
   return <List>{listPlay(playlist)}</List>;
