@@ -36,7 +36,7 @@ export const SongList = (props) => {
   const playlistLength = data.total;
 
   console.log(data.items, data.next);
-  if (songList.tracks.length <= data.total) {
+  if (songList.tracks.length < data.total) {
     setSongList((s) => ({
       tracks: [...s.tracks, ...data.items],
       index: s.index + 100,
