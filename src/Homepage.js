@@ -3,8 +3,14 @@ import { LoginButton } from "./LoginButton";
 import { NewPlaylist } from "./NewPlaylist";
 import { PlayList } from "./PlayList";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
+import { Container, Header} from "semantic-ui-react";
+import styled from "styled-components";
 
 export const Homepage = () => {
+  const StyledContainer = styled(Container)`
+  &&& {
+    width: 500px;
+  }`;
   const endpoint = "https://api.spotify.com/v1/me";
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${sessionStorage.accessToken}`);
@@ -35,10 +41,10 @@ export const Homepage = () => {
   if (data?.error) return <LoginButton />; // checks to see if there is an old access token
 
   return (
-    <div>
-      Welcome {userName}!
+    <StyledContainer>
+      <Header>Welcome {userName}!</Header>
       <PlayList />
       <NewPlaylist />
-    </div>
+    </StyledContainer>
   );
 };

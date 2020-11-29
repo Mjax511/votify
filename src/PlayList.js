@@ -1,12 +1,18 @@
 import { render } from "@testing-library/react";
 import React, { useState } from "react";
-import { List } from "semantic-ui-react";
+import { Container, Header, List } from "semantic-ui-react";
 import { LoginButton } from "./LoginButton";
 import { PlaylistItem } from "./PlaylistItem";
 import { SongList } from "./SongList";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
+import styled from 'styled-components';
 
 export const PlayList = () => {
+
+const StyledContainer = styled(Container)`
+  &&& {
+    width: 500px;
+  }`;
   const [itemClicked, setItemClicked] = useState(null);
   const endpoint = "https://api.spotify.com/v1/me/playlists";
   var myHeaders = new Headers();
@@ -50,7 +56,14 @@ export const PlayList = () => {
     return <SongList playlistId={data.items[itemClicked].id} playlistName={data.items[itemClicked].name}/>
   }
   const playlist = data.items;
-  return <List>{listPlay(playlist)}</List>;
+  // return <List>{listPlay(playlist)}</List>;
+  return (
+    <StyledContainer>
+      <List selection divided animated>
+        {listPlay(playlist)}
+      </List>
+    </StyledContainer>
+  );
 
   // fetch("https://api.spotify.com/v1/me/playlists", requestOptions)
   //   .then((response) => response.json())
