@@ -4,8 +4,8 @@ import "./App.css";
 import { LoginButton } from "./LoginButton";
 import { Homepage } from "./Homepage";
 import { useHandleFetchAndLoad } from "./useHandleFetchAndLoad";
-import 'semantic-ui-css/semantic.min.css'
-
+import "semantic-ui-css/semantic.min.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function HandleAuth(props) {
   const endpoint = "https://accounts.spotify.com/api/token";
@@ -76,6 +76,22 @@ function App() {
     return <HandleAuth authCode={authCode}></HandleAuth>;
   }
   return <LoginButton></LoginButton>;
+
+  return (
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/">
+            <Homepage />
+          </Route>
+          <Route path="/login">
+            <LoginButton />
+          </Route>
+          <Route path="/test">Test</Route>
+        </Switch>
+      </div>
+    </Router>
+  );
 
   //   const redirect_uri = 'http://localhost:3000'
   //   const my_client_id = 'd61d9c2cce0241c1bee240e797303b23'
