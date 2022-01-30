@@ -6,12 +6,6 @@ export function useHandleFetchAndLoad(endpoint, requestOptions) {
   const [error, setError] = useState(null);
   const [counter, setCounter] = useState(0);
 
-  const refresh = () => {
-    setCounter(counter => counter + 1)
-    setLoading(true);
-    setData(null);
-  }
-  console.log(counter, endpoint)
   useEffect(() => {
     try {
       (async () => {
@@ -35,11 +29,11 @@ export function useHandleFetchAndLoad(endpoint, requestOptions) {
     //   .catch((err) => {
     //       setError(err)
     //   });
-  }, [counter]);
+  }, []);
   // if (loading) {
   //   return <div>Loading fetch from {endpoint}</div>;
   // }
   //how to do this?
 
-  return [loading, data, error, refresh];
+  return [loading, data, error ];
 }
